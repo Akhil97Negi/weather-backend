@@ -1,24 +1,10 @@
-const express = require('express');
-const path = require('path');
-const jsonServer = require('json-server');
-
-const app = express();
-
-const router = jsonServer.router(path.join(__dirname, 'db.json'));
+const jsonServer = require("json-server"); // importing json-server library
+const server = jsonServer.create();
+const router = jsonServer.router("db.json");
 const middlewares = jsonServer.defaults();
+const port =  8080; //  chose port from here like 8080, 3001
 
+server.use(middlewares);
+server.use(router);
 
-app.use(express.json());
-app.use(middlewares);
-app.use('/api', router); 
-
-// A basic route to test the server
-app.get('/', (req, res) => {
-  res.send('Weather Backend API is running!');
-});
-
-
-const PORT = process.env.PORT || 5670;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+server.listen(port);
